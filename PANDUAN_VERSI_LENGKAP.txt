@@ -1,0 +1,23 @@
+OLSERA DATA CLEANER — FULL PREVIEW (Tahap 1-5, with safety limits)
+
+1. Hentikan Streamlit lama (Ctrl+C).
+2. Ekstrak ke FOLDER BARU.
+3. Salin .env lama ke folder baru di samping app.py.
+4. Jangan pindahkan atau hapus database di LOCALAPPDATA\OlseraDataCleaner.
+5. PowerShell:
+   py -3.11 -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   python -m pip install -r requirements.txt
+   python -m pytest -q
+   python -m streamlit run app.py
+
+Halaman baru: AI Ollama, Transaksi, Update Terkontrol.
+AI memerlukan ollama serve serta model lokal: ollama pull qwen2.5:3b
+Update LIVE NONAKTIF secara default. JANGAN aktifkan pada toko produksi
+sebelum kita verifikasi perilaku endpoint update pada produk khusus pengujian.
+Hanya ada tombol eksekusi SATU produk; tidak ada delete/merge/bulk update.
+Audit penjualan 'tidak laku' belum diaktifkan sampai struktur transaksi
+dan status retur/cancel dikonfirmasi.
+
+File BEFORE serta SQLite lama aman jika OLSERA_DATA_DIR tetap sama.
+JANGAN upload .env, SQLite mentah atau transaksi ke GitHub.

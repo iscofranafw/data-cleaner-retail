@@ -1,0 +1,17 @@
+OL SERA DATA CLEANER - PAKET LENGKAP TAHAP 1+2
+
+1. Stop Streamlit lama (Ctrl+C).
+2. Extract ZIP ini ke folder BARU.
+3. Copy .env dari proyek sebelumnya ke sebelah app.py dalam folder BARU.
+4. Buka PowerShell di folder BARU.
+5. Jalankan:
+   py -3.11 -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   python -m pip install -r requirements.txt
+   python -m pytest -q
+   python -m streamlit run app.py
+
+Database lama masih digunakan jika OLSERA_DATA_DIR pada .env tidak diubah.
+Database default: %LOCALAPPDATA%\OlseraDataCleaner\database\olsera_cleaner.db
+Jangan jalankan proyek lama dan proyek baru bersamaan.
+Tahap 2 = audit lokal saja, tanpa update produk Olsera.

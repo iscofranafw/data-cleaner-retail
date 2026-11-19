@@ -1,0 +1,45 @@
+# Environment & Secrets (NEVER COMMIT)
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+!.streamlit/secrets.toml.example
+
+# Local Python Virtual Environments
+.venv/
+venv/
+env/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local SQLite Databases & WAL files
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+/database/
+
+# Local Backups & Logs
+backups/
+logs/
+reports/
+
+# Sensitive Business Data (CSVs with Product/SKU/Barcode)
+*.csv
+
+# IDE and Editor configs
+.vscode/
+.idea/
+
+# Temporary Scratch Files & OS files
+scratch/
+.DS_Store
+Thumbs.db
+desktop.ini
