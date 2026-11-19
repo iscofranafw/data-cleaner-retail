@@ -1,6 +1,6 @@
-# Data Cleaner Retail — Olsera Data Cleaner V3
+# Data Cleaner Retail — A Data Cleaner V3
 
-Aplikasi audit kualitas data katalog produk, koreksi taksonomi pintar (*Smart Category & Classification Audit*), serta tata kelola pembaruan terkontrol untuk pengguna Olsera POS/ERP.
+Aplikasi audit kualitas data katalog produk, koreksi taksonomi pintar (*Smart Category & Classification Audit*), serta tata kelola pembaruan terkontrol untuk pengguna A POS/ERP.
 
 Dirancang untuk beroperasi dalam dua mode arsitektur:
 1. **Mode Lokal (Windows)**: Penyimpanan SQLite persisten di `%LOCALAPPDATA%`, analisis offline cepat, dan integrasi opsional ke model lokal Ollama.
@@ -11,13 +11,13 @@ Dirancang untuk beroperasi dalam dua mode arsitektur:
 ## Fitur Utama
 
 - **Smart Category Audit**: Mendeteksi anomali kategori produk (seperti produk makanan yang tersimpan dalam *Others*) menggunakan heuristik bobot token dan bukti produk serupa (*peer evidence*).
-- **AI Taxonomy Manager & Multi-Class Classification (V3)**: Menemukan dan memetakan 60+ klasifikasi produk Olsera secara dinamis tanpa hardcoded list. Mengidentifikasi salah klasifikasi menggunakan hybrid token matching, ekstraksi atribut (merek, ukuran, uom, varian), dan verifikasi AI lokal.
+- **AI Taxonomy Manager & Multi-Class Classification (V3)**: Menemukan dan memetakan 60+ klasifikasi produk A secara dinamis tanpa hardcoded list. Mengidentifikasi salah klasifikasi menggunakan hybrid token matching, ekstraksi atribut (merek, ukuran, uom, varian), dan verifikasi AI lokal.
 - **Controlled Reclassification & Review Workflow**: Alur persetujuan operator bertahap (`PENDING` -> `APPROVED` / `REJECTED`) dengan pencatatan audit log lengkap.
 - **Disaster Recovery & Portabilitas Penuh (CloudBackupEngine)**:
   - Ekspor seluruh katalog, temuan audit, riwayat persetujuan, dan ground truth ke dalam satu berkas Backup ZIP dengan `manifest.json`.
   - Pemulihan data aman dengan validasi integritas **SHA-256**, pencegahan serangan **Zip-Slip (Directory Traversal)**, dan pencocokan **Store ID**.
 - **Perlindungan Keamanan Berlapis**:
-  - **Zero LIVE Mutation**: Kunci mutasi keras pada level API Client dan Service Layer memastikan katalog aktif di Olsera terlindungi dari modifikasi tidak disengaja.
+  - **Zero LIVE Mutation**: Kunci mutasi keras pada level API Client dan Service Layer memastikan katalog aktif di A terlindungi dari modifikasi tidak disengaja.
   - **Enterprise RBAC**: Pembatasan hak akses berbasis email allowlist (`Admin`, `Operator`, `Auditor`, `Viewer`).
   - **Zero Store Data Leakage**: Repositori git 100% bebas dari kredensial, token API, database SQLite operasional, maupun file CSV katalog toko.
 
@@ -46,7 +46,7 @@ Dirancang untuk beroperasi dalam dua mode arsitektur:
 ### Prasyarat
 - Python 3.11 (64-bit)
 - PowerShell 5.1+ atau Windows Terminal
-- Akun Olsera POS dengan akses Open API (App ID & Secret Key)
+- Akun A POS dengan akses Open API (App ID & Secret Key)
 - *(Opsional)* [Ollama](https://ollama.com/) dengan model `llama3:8b` atau `qwen2.5:3b` jika ingin mengaktifkan verifikasi AI lokal.
 
 ### Langkah Instalasi
@@ -69,7 +69,7 @@ Dirancang untuk beroperasi dalam dua mode arsitektur:
    ```powershell
    Copy-Item .env.example .env
    ```
-5. Buka `.env` dan masukkan kredensial API Olsera Anda (`OLSERA_APP_ID`, `OLSERA_SECRET_KEY`, `OLSERA_EXPECTED_STORE_ID`).
+5. Buka `.env` dan masukkan kredensial API A Anda (`A_APP_ID`, `A_SECRET_KEY`, `A_EXPECTED_STORE_ID`).
 6. Jalankan pengujian otomatis untuk memverifikasi instalasi:
    ```powershell
    python -m pytest -q
@@ -110,17 +110,17 @@ Salin konfigurasi berikut ke menu **Settings -> Secrets** di dashboard Streamlit
 # Streamlit Community Cloud Secrets (Stateless Cloud Mode)
 # ==============================================================================
 
-# Kredensial Olsera Open API
-OLSERA_APP_ID = "masukkan_app_id_olsera_anda"
-OLSERA_SECRET_KEY = "masukkan_secret_key_olsera_anda"
-OLSERA_BASE_URL = "https://api-open.olsera.co.id/api/open-api/v1"
-OLSERA_EXPECTED_STORE_ID = "masukkan_store_id_anda"
-OLSERA_PAGE_SIZE = 50
-OLSERA_TIMEOUT_SECONDS = 30
+# Kredensial A Open API
+A_APP_ID = "masukkan_app_id_A_anda"
+A_SECRET_KEY = "masukkan_secret_key_A_anda"
+A_BASE_URL = "https://api-open.A.co.id/api/open-api/v1"
+A_EXPECTED_STORE_ID = "masukkan_store_id_anda"
+A_PAGE_SIZE = 50
+A_TIMEOUT_SECONDS = 30
 
 # Mode Keamanan Cloud (Strict Read-Only)
 IS_CLOUD_DEPLOYMENT = true
-OLSERA_ENABLE_UPDATES = "NO"
+A_ENABLE_UPDATES = "NO"
 ALLOW_CLOUD_LIVE_UPDATES = "NO"
 
 # Autentikasi Server-Side & Allowlist Email
@@ -150,8 +150,8 @@ ALLOW_EXTERNAL_AI_DATA_SHARING = false
 1. **Autentikasi**: Pengguna masuk menggunakan email Google yang terdaftar pada `ALLOWED_EMAILS`. Email di luar daftar akan ditolak secara otomatis (*fail closed*).
 2. **Kondisi Awal**: Container cloud memulai sesi dengan SQLite kosong (`⚪ BELUM DISINKRONISASI`).
 3. **Memuat Data**:
-   - **Opsi 1 (Tarik Langsung)**: Buka tab **Sinkronisasi**, klik **Jalankan sinkronisasi (read-only)** untuk menarik seluruh produk aktif dari Olsera Open API.
-   - **Opsi 2 (Restore Cepat)**: Buka tab **Backup**, unggah berkas `olsera_backup_...zip` hasil ekspor sesi sebelumnya untuk langsung memulihkan seluruh data produk, riwayat audit, dan keputusan review.
+   - **Opsi 1 (Tarik Langsung)**: Buka tab **Sinkronisasi**, klik **Jalankan sinkronisasi (read-only)** untuk menarik seluruh produk aktif dari A Open API.
+   - **Opsi 2 (Restore Cepat)**: Buka tab **Backup**, unggah berkas `A_backup_...zip` hasil ekspor sesi sebelumnya untuk langsung memulihkan seluruh data produk, riwayat audit, dan keputusan review.
 4. **Audit & Review**: Jalankan audit kategori atau klasifikasi produk, analisis bukti kecocokan, dan berikan persetujuan/penolakan rekomendasi.
 5. **Menyimpan Hasil**: Sebelum mengakhiri sesi kerja, klik tombol **📦 Unduh Full Backup ZIP Sekarang** di Dashboard untuk menyimpan data terbaru ke komputer lokal Anda.
 
@@ -169,4 +169,4 @@ Seluruh fungsionalitas diuji menggunakan rangkaian pengujian regresi otomatis:
 
 ## Lisensi & Batasan
 
-Aplikasi ini didesain khusus untuk penggunaan internal audit dan rekonsiliasi data toko Olsera. Modul pembaruan LIVE dibatasi dengan proteksi keamanan ganda guna mencegah perubahan data katalog yang tidak terverifikasi.
+Aplikasi ini didesain khusus untuk penggunaan internal audit dan rekonsiliasi data toko A. Modul pembaruan LIVE dibatasi dengan proteksi keamanan ganda guna mencegah perubahan data katalog yang tidak terverifikasi.
